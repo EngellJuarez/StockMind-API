@@ -27,6 +27,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::categoria.categoria"
+    },
+    "movimientos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::movimiento.movimiento",
+      "mappedBy": "producto"
     }
   }
 }

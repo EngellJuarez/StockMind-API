@@ -1,0 +1,53 @@
+{
+    "kind": "collectionType",
+    "collectionName": "movimientos",
+    "info": {
+        "singularName": "movimiento",
+        "pluralName": "movimientos",
+        "displayName": "Movimiento",
+        "description": "Registro de entradas y salidas de inventario"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "Tipo": {
+            "type": "enumeration",
+            "enum": [
+                "Entrada",
+                "Salida",
+                "Ajuste"
+            ],
+            "required": true
+        },
+        "Cantidad": {
+            "type": "integer",
+            "required": true
+        },
+        "Fecha": {
+            "type": "datetime",
+            "required": true
+        },
+        "Observaciones": {
+            "type": "text"
+        },
+        "producto": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::producto.producto",
+            "inversedBy": "movimientos"
+        },
+        "almacen": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::almacen.almacen",
+            "inversedBy": "movimientos"
+        },
+        "usuario": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user"
+        }
+    }
+}
