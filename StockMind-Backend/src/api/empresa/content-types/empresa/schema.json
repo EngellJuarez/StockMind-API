@@ -23,6 +23,12 @@
     },
     "FechaCreacion": {
       "type": "date"
+    },
+    "almacenes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::almacen.almacen",
+      "mappedBy": "empresa"
     }
   }
 }

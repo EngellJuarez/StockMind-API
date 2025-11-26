@@ -1,0 +1,47 @@
+{
+    "kind": "collectionType",
+    "collectionName": "almacens",
+    "info": {
+        "singularName": "almacen",
+        "pluralName": "almacens",
+        "displayName": "Almacen",
+        "description": "Gestión de almacenes e inventarios"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "Nombre": {
+            "type": "string",
+            "required": true
+        },
+        "Ubicacion": {
+            "type": "string"
+        },
+        "Capacidad": {
+            "type": "string"
+        },
+        "Estado": {
+            "type": "enumeration",
+            "enum": [
+                "Activo",
+                "Mantenimiento",
+                "Inactivo"
+            ],
+            "default": "Activo"
+        },
+        "empresa": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::empresa.empresa",
+            "inversedBy": "almacenes"
+        },
+        "movimientos": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::movimiento.movimiento",
+            "mappedBy": "almacen"
+        }
+    }
+}
