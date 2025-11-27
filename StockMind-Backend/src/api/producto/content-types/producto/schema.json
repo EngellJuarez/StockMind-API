@@ -33,6 +33,11 @@
       "relation": "oneToMany",
       "target": "api::movimiento.movimiento",
       "mappedBy": "producto"
+    },
+    "empresa": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::empresa.empresa"
     }
   }
 }
