@@ -531,6 +531,37 @@ export interface ApiEmpresaEmpresa extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiInventarioInventario extends Struct.CollectionTypeSchema {
+  collectionName: 'inventarios';
+  info: {
+    displayName: 'Inventario';
+    pluralName: 'inventarios';
+    singularName: 'inventario';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    empresa: Schema.Attribute.Relation<'oneToOne', 'api::empresa.empresa'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::inventario.inventario'
+    > &
+      Schema.Attribute.Private;
+    producto: Schema.Attribute.Relation<'oneToOne', 'api::producto.producto'>;
+    publishedAt: Schema.Attribute.DateTime;
+    StockActual: Schema.Attribute.Integer;
+    StockMinimo: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiMovimientoMovimiento extends Struct.CollectionTypeSchema {
   collectionName: 'movimientos';
   info: {
@@ -1123,6 +1154,7 @@ declare module '@strapi/strapi' {
       'api::almacen.almacen': ApiAlmacenAlmacen;
       'api::categoria.categoria': ApiCategoriaCategoria;
       'api::empresa.empresa': ApiEmpresaEmpresa;
+      'api::inventario.inventario': ApiInventarioInventario;
       'api::movimiento.movimiento': ApiMovimientoMovimiento;
       'api::producto.producto': ApiProductoProducto;
       'plugin::content-releases.release': PluginContentReleasesRelease;

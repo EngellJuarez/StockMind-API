@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "inventarios",
+  "info": {
+    "singularName": "inventario",
+    "pluralName": "inventarios",
+    "displayName": "Inventario"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "producto": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::producto.producto"
+    },
+    "StockActual": {
+      "type": "integer"
+    },
+    "StockMinimo": {
+      "type": "integer"
+    },
+    "empresa": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::empresa.empresa"
+    }
+  }
+}
