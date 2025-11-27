@@ -430,6 +430,46 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAlmacenAlmacen extends Struct.CollectionTypeSchema {
+  collectionName: 'almacens';
+  info: {
+    description: 'Gesti\u00F3n de almacenes e inventarios';
+    displayName: 'Almacen';
+    pluralName: 'almacens';
+    singularName: 'almacen';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Capacidad: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    empresa: Schema.Attribute.Relation<'manyToOne', 'api::empresa.empresa'>;
+    Estado: Schema.Attribute.Enumeration<
+      ['Activo', 'Mantenimiento', 'Inactivo']
+    > &
+      Schema.Attribute.DefaultTo<'Activo'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::almacen.almacen'
+    > &
+      Schema.Attribute.Private;
+    movimientos: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::movimiento.movimiento'
+    >;
+    Nombre: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    Ubicacion: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCategoriaCategoria extends Struct.CollectionTypeSchema {
   collectionName: 'categorias';
   info: {
@@ -469,6 +509,7 @@ export interface ApiEmpresaEmpresa extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    almacenes: Schema.Attribute.Relation<'oneToMany', 'api::almacen.almacen'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -486,6 +527,45 @@ export interface ApiEmpresaEmpresa extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiMovimientoMovimiento extends Struct.CollectionTypeSchema {
+  collectionName: 'movimientos';
+  info: {
+    description: 'Registro de entradas y salidas de inventario';
+    displayName: 'Movimiento';
+    pluralName: 'movimientos';
+    singularName: 'movimiento';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    almacen: Schema.Attribute.Relation<'manyToOne', 'api::almacen.almacen'>;
+    Cantidad: Schema.Attribute.Integer & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Fecha: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::movimiento.movimiento'
+    > &
+      Schema.Attribute.Private;
+    Observaciones: Schema.Attribute.Text;
+    producto: Schema.Attribute.Relation<'manyToOne', 'api::producto.producto'>;
+    publishedAt: Schema.Attribute.DateTime;
+    Tipo: Schema.Attribute.Enumeration<['Entrada', 'Salida', 'Ajuste']> &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    usuario: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -514,6 +594,10 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
       'api::producto.producto'
     > &
       Schema.Attribute.Private;
+    movimientos: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::movimiento.movimiento'
+    >;
     Nombre: Schema.Attribute.String;
     PrecioCompra: Schema.Attribute.BigInteger;
     PrecioVenta: Schema.Attribute.BigInteger;
@@ -1034,8 +1118,10 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::almacen.almacen': ApiAlmacenAlmacen;
       'api::categoria.categoria': ApiCategoriaCategoria;
       'api::empresa.empresa': ApiEmpresaEmpresa;
+      'api::movimiento.movimiento': ApiMovimientoMovimiento;
       'api::producto.producto': ApiProductoProducto;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
