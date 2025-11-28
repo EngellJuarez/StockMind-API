@@ -14,16 +14,17 @@
   "attributes": {
     "Tipo": {
       "type": "enumeration",
+      "required": true,
       "enum": [
         "Entrada",
         "Salida",
         "Ajuste"
-      ],
-      "required": true
+      ]
     },
     "Cantidad": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "min": 0
     },
     "Fecha": {
       "type": "datetime",

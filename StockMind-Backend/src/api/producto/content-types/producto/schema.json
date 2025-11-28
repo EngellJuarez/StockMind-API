@@ -18,10 +18,12 @@
       "type": "text"
     },
     "PrecioCompra": {
-      "type": "biginteger"
+      "type": "biginteger",
+      "min": "0"
     },
     "PrecioVenta": {
-      "type": "biginteger"
+      "type": "biginteger",
+      "min": "0"
     },
     "categoria": {
       "type": "relation",
@@ -38,6 +40,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::empresa.empresa"
+    },
+    "proveedors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::proveedor.proveedor",
+      "inversedBy": "productos"
     }
   }
 }

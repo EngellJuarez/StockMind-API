@@ -17,10 +17,12 @@
       "target": "api::producto.producto"
     },
     "StockActual": {
-      "type": "integer"
+      "type": "integer",
+      "min": 0
     },
     "StockMinimo": {
-      "type": "integer"
+      "type": "integer",
+      "min": 0
     },
     "empresa": {
       "type": "relation",

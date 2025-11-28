@@ -554,8 +554,20 @@ export interface ApiInventarioInventario extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     producto: Schema.Attribute.Relation<'oneToOne', 'api::producto.producto'>;
     publishedAt: Schema.Attribute.DateTime;
-    StockActual: Schema.Attribute.Integer;
-    StockMinimo: Schema.Attribute.Integer;
+    StockActual: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    StockMinimo: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -575,7 +587,14 @@ export interface ApiMovimientoMovimiento extends Struct.CollectionTypeSchema {
   };
   attributes: {
     almacen: Schema.Attribute.Relation<'manyToOne', 'api::almacen.almacen'>;
-    Cantidad: Schema.Attribute.Integer & Schema.Attribute.Required;
+    Cantidad: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -632,9 +651,69 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
       'api::movimiento.movimiento'
     >;
     Nombre: Schema.Attribute.String;
-    PrecioCompra: Schema.Attribute.BigInteger;
-    PrecioVenta: Schema.Attribute.BigInteger;
+    PrecioCompra: Schema.Attribute.BigInteger &
+      Schema.Attribute.SetMinMax<
+        {
+          min: '0';
+        },
+        string
+      >;
+    PrecioVenta: Schema.Attribute.BigInteger &
+      Schema.Attribute.SetMinMax<
+        {
+          min: '0';
+        },
+        string
+      >;
+    proveedors: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::proveedor.proveedor'
+    >;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProveedorProveedor extends Struct.CollectionTypeSchema {
+  collectionName: 'proveedors';
+  info: {
+    displayName: 'Proveedor';
+    pluralName: 'proveedors';
+    singularName: 'proveedor';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Contacto: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    empresa: Schema.Attribute.Relation<'oneToOne', 'api::empresa.empresa'>;
+    Estado: Schema.Attribute.Enumeration<['Activo', 'Inactivo']>;
+    Evaluacion: Schema.Attribute.Float &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 5;
+          min: 0;
+        },
+        number
+      >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::proveedor.proveedor'
+    > &
+      Schema.Attribute.Private;
+    NombreEmpresa: Schema.Attribute.String & Schema.Attribute.Required;
+    productos: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::producto.producto'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    Telefono: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1157,6 +1236,7 @@ declare module '@strapi/strapi' {
       'api::inventario.inventario': ApiInventarioInventario;
       'api::movimiento.movimiento': ApiMovimientoMovimiento;
       'api::producto.producto': ApiProductoProducto;
+      'api::proveedor.proveedor': ApiProveedorProveedor;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
