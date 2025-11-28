@@ -620,6 +620,42 @@ export interface ApiMovimientoMovimiento extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiOrdenOrden extends Struct.CollectionTypeSchema {
+  collectionName: 'ordens';
+  info: {
+    displayName: 'Orden';
+    pluralName: 'ordens';
+    singularName: 'orden';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    empresa: Schema.Attribute.Relation<'oneToOne', 'api::empresa.empresa'>;
+    EntregaEsperada: Schema.Attribute.Date;
+    Estado: Schema.Attribute.Enumeration<
+      ['Pendiente', 'En Proceso', 'Entregado', 'Cancelado']
+    >;
+    Fecha: Schema.Attribute.Date & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::orden.orden'> &
+      Schema.Attribute.Private;
+    NumeroOrden: Schema.Attribute.Integer & Schema.Attribute.Required;
+    proveedor: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::proveedor.proveedor'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    Total: Schema.Attribute.Float & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
   collectionName: 'productos';
   info: {
@@ -1235,6 +1271,7 @@ declare module '@strapi/strapi' {
       'api::empresa.empresa': ApiEmpresaEmpresa;
       'api::inventario.inventario': ApiInventarioInventario;
       'api::movimiento.movimiento': ApiMovimientoMovimiento;
+      'api::orden.orden': ApiOrdenOrden;
       'api::producto.producto': ApiProductoProducto;
       'api::proveedor.proveedor': ApiProveedorProveedor;
       'plugin::content-releases.release': PluginContentReleasesRelease;
