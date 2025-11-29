@@ -24,10 +24,10 @@
     "FechaCreacion": {
       "type": "date"
     },
-    "almacenes": {
+    "movimientos": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::almacen.almacen",
+      "target": "api::movimiento.movimiento",
       "mappedBy": "empresa"
     }
   }

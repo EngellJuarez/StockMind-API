@@ -45,10 +45,11 @@
       "target": "api::almacen.almacen",
       "inversedBy": "movimientos"
     },
-    "usuario": {
+    "empresa": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "plugin::users-permissions.user"
+      "target": "api::empresa.empresa",
+      "inversedBy": "movimientos"
     }
   }
 }

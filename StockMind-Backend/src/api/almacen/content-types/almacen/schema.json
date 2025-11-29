@@ -24,18 +24,17 @@
     },
     "Estado": {
       "type": "enumeration",
+      "default": "Activo",
       "enum": [
         "Activo",
         "Mantenimiento",
         "Inactivo"
-      ],
-      "default": "Activo"
+      ]
     },
     "empresa": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::empresa.empresa",
-      "inversedBy": "almacenes"
+      "relation": "oneToOne",
+      "target": "api::empresa.empresa"
     },
     "movimientos": {
       "type": "relation",

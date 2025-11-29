@@ -30,12 +30,6 @@
       "relation": "oneToOne",
       "target": "api::categoria.categoria"
     },
-    "movimientos": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::movimiento.movimiento",
-      "mappedBy": "producto"
-    },
     "empresa": {
       "type": "relation",
       "relation": "oneToOne",
@@ -46,6 +40,12 @@
       "relation": "manyToMany",
       "target": "api::proveedor.proveedor",
       "inversedBy": "productos"
+    },
+    "movimientos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::movimiento.movimiento",
+      "mappedBy": "producto"
     }
   }
 }

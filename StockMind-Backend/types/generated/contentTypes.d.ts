@@ -446,7 +446,7 @@ export interface ApiAlmacenAlmacen extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    empresa: Schema.Attribute.Relation<'manyToOne', 'api::empresa.empresa'>;
+    empresa: Schema.Attribute.Relation<'oneToOne', 'api::empresa.empresa'>;
     Estado: Schema.Attribute.Enumeration<
       ['Activo', 'Mantenimiento', 'Inactivo']
     > &
@@ -510,7 +510,6 @@ export interface ApiEmpresaEmpresa extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    almacenes: Schema.Attribute.Relation<'oneToMany', 'api::almacen.almacen'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -522,6 +521,10 @@ export interface ApiEmpresaEmpresa extends Struct.CollectionTypeSchema {
       'api::empresa.empresa'
     > &
       Schema.Attribute.Private;
+    movimientos: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::movimiento.movimiento'
+    >;
     Nombre: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     Telefono: Schema.Attribute.String;
@@ -598,6 +601,7 @@ export interface ApiMovimientoMovimiento extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    empresa: Schema.Attribute.Relation<'manyToOne', 'api::empresa.empresa'>;
     Fecha: Schema.Attribute.DateTime & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -613,10 +617,6 @@ export interface ApiMovimientoMovimiento extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    usuario: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
